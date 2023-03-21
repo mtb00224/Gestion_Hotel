@@ -12,8 +12,8 @@ import (
 	"gestion_hotel/client"
 	"gestion_hotel/etage"
 	"gestion_hotel/hotel"
-	"gestion_hotel/serviceannexe"
 	"gestion_hotel/reservation"
+	"gestion_hotel/serviceannexe"
 )
 
 func main() {
@@ -53,7 +53,7 @@ func main() {
 	router.HandleFunc("/reservation", reservation.RecupererReservation).Methods("GET")
 	router.HandleFunc("/reservation", reservation.CreerReservation).Methods("POST")
 	router.HandleFunc("/reservation", reservation.MettreAJourReservation).Methods("POST")
-	router.HandleFunc("/reservation", serviceannexe.SupprimerReservation).Methods("POST")
+	router.HandleFunc("/reservation", reservation.SupprimerReservation).Methods("POST")
 
 	// Démarrage du serveur
 	fmt.Println("Serveur démarré sur le port :8000")

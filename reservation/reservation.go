@@ -88,95 +88,92 @@ func CreerReservation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reservationID := strconv.Itoa(reservation.Client_idClient) + "-" + reservation.Chambre_numero
-	reservation.ID = reservationID
-
 	json.NewEncoder(w).Encode(reservation)
 }
 
 func MettreAJourReservation(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
-    clientID, err := strconv.Atoi(params["Client_idClient"])
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
-    chambreNumero := params["Chambre_numero"]
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	clientID, err := strconv.Atoi(params["Client_idClient"])
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	chambreNumero := params["Chambre_numero"]
 
-    var reservation Reservation
-    err = json.NewDecoder(r.Body).Decode(&reservation)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
+	var reservation Reservation
+	err = json.NewDecoder(r.Body).Decode(&reservation)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
-    db := dbConn()
-    defer db.Close()
+	db := dbConn()
+	defer db.Close()
 
-    stmt, err := db.Prepare("UPDATE reservation SET facture=? WHERE Client_idClient=? AND Chambre_numero=?")
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	stmt, err := db.Prepare("UPDATE reservation SET facture=? WHERE Client_idClient=? AND Chambre_numero=?")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    result, err := stmt.Exec(reservation.Facture, clientID, chambreNumero)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	result, err := stmt.Exec(reservation.Facture, clientID, chambreNumero)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    rowsAffected, err := result.RowsAffected()
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    if rowsAffected == 0 {
-        http.Error(w, "Réservation non trouvée", http.StatusNotFound)
-        return
-    }
+	if rowsAffected == 0 {
+		http.Error(w, "Réservation non trouvée", http.StatusNotFound)
+		return
+	}
 
-    reservation.Client_idClient = clientID
-    reservation.Chambre_numero = chambreNumero
-    json.NewEncoder(w).Encode(reservation)
+	reservation.Client_idClient = clientID
+	reservation.Chambre_numero = chambreNumero
+	json.NewEncoder(w).Encode(reservation)
 }
 
 func SupprimerReservation(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
-    clientID, err := strconv.Atoi(params["Client_idClient"])
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
-    chambreNumero := params["Chambre_numero"]
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	clientID, err := strconv.Atoi(params["Client_idClient"])
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	chambreNumero := params["Chambre_numero"]
 
-    db := dbConn()
-    defer db.Close()
+	db := dbConn()
+	defer db.Close()
 
-    stmt, err := db.Prepare("DELETE FROM reservation WHERE Client_idClient=? AND Chambre_numero=?")
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	stmt, err := db.Prepare("DELETE FROM reservation WHERE Client_idClient=? AND Chambre_numero=?")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    result, err := stmt.Exec(clientID, chambreNumero)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	result, err := stmt.Exec(clientID, chambreNumero)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    rowsAffected, err := result.RowsAffected()
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    if rowsAffected == 0 {
-        http.Error(w, "Réservation non trouvée", http.StatusNotFound)
-        return
-    }
+	if rowsAffected == 0 {
+		http.Error(w, "Réservation non trouvée", http.StatusNotFound)
+		return
+	}
 
-    json.NewEncoder(w).Encode(map[string]string{"message": "suppression réussie"})
+	json.NewEncoder(w).Encode(map[string]string{"message": "suppression réussie"})
 }
