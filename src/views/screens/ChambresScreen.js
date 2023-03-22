@@ -24,13 +24,13 @@ function ChambresScreen({ navigation }) {
         style={style.button}
         // onPress={() => navigation.navigate('Réservations')}
       >
-        <Text style={style.buttonText}>List Room</Text>
+        <Text style={style.buttonText}>see Rooms</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={style.button}
-        // onPress={() => navigation.navigate('Clients')}
+        onPress={() => navigation.navigate('tarif')}
       >
-        <Text style={style.buttonText}>update Room</Text>
+        <Text style={style.buttonText}>choose a tarif</Text>
       </TouchableOpacity>
       <Slider images={image}  />
     </SafeAreaView>

@@ -66,6 +66,7 @@ const BookScreen = ({navigation}) => {
         </TouchableOpacity>
         <Slider images={image}  />
       </View>
+      
 
     </SafeAreaView>   
 

@@ -113,7 +113,7 @@ const DetailsScreen = ({navigation, route}) => {
         <View style={style.btn}>
         <TouchableOpacity onPress={()=>navigation.navigate("book")}>
           <Text style={{color: COLORS.white, fontSize: 18, fontWeight: 'bold'}}>
-            Book Now
+            See
           </Text>
           
           </TouchableOpacity>

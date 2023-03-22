@@ -96,9 +96,7 @@ const HomeScreen = ({navigation}) => {
                 <Text style={{fontWeight: 'bold', fontSize: 17}}>
                   {hotel.name}
                 </Text>
-                <Text style={{color: COLORS.grey, fontSize: 12}}>
-                  {hotel.location}
-                </Text>
+              
               </View>
               <Icon name="bookmark-border" size={26} color={COLORS.primary} />
             </View>
@@ -201,7 +199,7 @@ const HomeScreen = ({navigation}) => {
             marginHorizontal: 20,
           }}>
           <Text style={{fontWeight: 'bold', color: COLORS.grey}}>
-            Top hotels
+            Top Rooms
           </Text>
           <Text style={{color: COLORS.grey}}>Show all</Text>
         </View>
